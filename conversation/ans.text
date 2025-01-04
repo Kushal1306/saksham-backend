@@ -1,0 +1,54 @@
+const campaignSchema = new mongoose.Schema({
+  role_name: { type: String, required: true },
+  job_description: { type: String, required: true },
+  questions:{ type:String}, 
+  parameters:{
+    Object
+  }
+  expiry_time: { type: Date, required: true }
+});
+
+const Campaign = mongoose.model('Campaign', campaignSchema);
+
+================
+const candidateSchema = new mongoose.Schema({
+  campaign_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Campaign', required: true, index: true }, // Reference to the Campaign model
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  status: {
+    invitation_status: { type: String, enum:['Not Invited','Invited'],default: 'Not Invited' },
+    interview_status: { type: String, enum: ['yet to begin', 'ongoing', 'completed'], default: 'yet to begin' },
+    feedback_status: { type: String, enum: ['generated', 'n/a'], default: 'n/a' }
+  },
+  expiresAt: { type: Date, required: true }  // Expiry date for the candidate
+});
+============================
+const feedbackSchema = new mongoose.Schema({
+  candidate_id: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Candidate', 
+    required: true, 
+    index: true // Index on candidate_id
+  },
+  campaign_id: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Campaign', 
+    required: true, 
+    index: true // Index on interview_id
+  },
+  interview_summary: { type: String, required: true },
+  strengths: [{ type: String }],  
+  weaknesses: [{ type: String }],  
+  parameters: {                    
+    type: Object,                 
+    required: true          
+  }
+});
+
+// Create the model
+const Feedback = mongoose.model('Feedback', feedbackSchema);
+module.exports = Feedback;
+
+
+==========
+  candidate_id: { type: String, required: true, unique: true, index: true }, // Unique identifier for the candidate
