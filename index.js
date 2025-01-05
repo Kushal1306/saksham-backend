@@ -11,7 +11,7 @@ import { findCandidateByCandidateId } from './helpers/feedback.js';
 
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 
 const allowedOrigins = ['https://saksham-green.vercel.app', 'https://saksham.quizai.tech','https://cron-job.org','http://localhost:5173'];
