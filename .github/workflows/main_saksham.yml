@@ -66,6 +66,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'saksham'
-          slot-name: 'Production'
+          slot-name: production
           package: .
           
