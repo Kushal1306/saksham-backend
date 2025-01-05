@@ -24,8 +24,8 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          # npm run build --if-present
-          # npm run test --if-present
+          npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -43,7 +43,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write
+      id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
@@ -57,15 +57,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_69F18ACC60894D12AEDAE3897856051B }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EE502081977242AFA73115CDA51AD238 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B52689C41DE848EB82667802035CD5A9 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_50140DCA87A146ECB8EE6341C11D343B }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_09B1CF499A4046CB85D8073402BD94BE }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_14E2B79FF8234CE1ACFA0D0992236806 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'saksham'
-          slot-name: production
+          slot-name: 'Production'
           package: .
           
